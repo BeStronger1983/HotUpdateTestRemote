@@ -1,6 +1,9 @@
 ---------------------------
 -- GameScene
 ---------------------------
+package.loaded["src/Common/SoundDeal"] = nil
+require("src/Common/SoundDeal")
+
 local GameScene = class("GameScene",function()
   return cc.Scene:create()
 end)
@@ -14,6 +17,7 @@ function GameScene:ctor()
   self.m_mainNode = cc.CSLoader:createNode("res/HotUpdateTest/GameScene.csb")
   self:addChild(self.m_mainNode)
   self:initToStartSceneButton()
+  self:initPlaySoundButton()
   self:initText()
   self:initImage()
 end
@@ -24,6 +28,15 @@ function GameScene:initToStartSceneButton()
       local startScenePath = "src/HotUpdateTest/StartScene"
       package.loaded[startScenePath] = nil
       Utility:switchScene(require(startScenePath).create())
+    end
+  end)
+end
+
+function GameScene:initPlaySoundButton()
+  self.m_mainNode:getChildByName("btnPlaySound"):addTouchEventListener(function (event,type)
+    if type == ccui.TouchEventType.ended then
+      SoundDeal:startEffect()
+      SoundDeal:playEffect(Utility:getFilePath("res/HotUpdateTest/Sound/bankerWin.mp3"))
     end
   end)
 end
