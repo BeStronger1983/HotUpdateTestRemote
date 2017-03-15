@@ -43,20 +43,11 @@ function GameScene:initImage()
   local isImageExist = cc.FileUtils:getInstance():isFileExist(imagePath)
   debug_print("isImageExist = ", isImageExist)
 
-  if not isFileExist then
+  if not isImageExist then
     imagePath = "res/RoadMap/banker.png"
-    self.m_image:setTexture(imagePath)
-    return
   end
 
-  local texture2d = cc.Director:getInstance():getTextureCache():addImage(imagePath)
-
-  if texture2d then
-    self.m_image:setTexture(texture2d)
-    debug_print("texture is true")
-  else
-    debug_print("texture is false")
-  end
+  self.m_image:setTexture(imagePath)
 end
 
 return GameScene
