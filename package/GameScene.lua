@@ -15,6 +15,7 @@ function GameScene:ctor()
   self:addChild(self.m_mainNode)
   self:initToStartSceneButton()
   self:initText()
+  self:initImage()
 end
 
 function GameScene:initToStartSceneButton()
@@ -30,6 +31,32 @@ end
 function GameScene:initText()
   self.m_text = self.m_mainNode:getChildByName("lblGameScene")
   self.m_text:setString("After Hot Update")
+end
+
+function GameScene:initImage()
+  debug_print("GameScene:initImage()")
+  self.m_image = self.m_mainNode:getChildByName("spriteGameScene")
+  debug_print("GameScene:initImage() before imagePath")
+  local imagePath = cc.FileUtils:getInstance():getWritablePath() .. "package/banker.png"
+  debug_print("imagePath = ", imagePath)
+
+  local isImageExist = cc.FileUtils:getInstance():isFileExist(imagePath)
+  debug_print("isImageExist = ", isImageExist)
+
+  if not isFileExist then
+    imagePath = "res/RoadMap/banker.png"
+    self.m_image:setTexture(imagePath)
+    return
+  end
+
+  local texture2d = cc.Director:getInstance():getTextureCache():addImage(imagePath)
+
+  if texture2d then
+    self.m_image:setTexture(texture2d)
+    debug_print("texture is true")
+  else
+    debug_print("texture is false")
+  end
 end
 
 return GameScene
